@@ -1,4 +1,4 @@
-import { Modal } from "./components/modal.tsx";
+import { Form } from "./components/form/Form.tsx";
 import './App.css'
 
-export const App = <Modal />;
+export const App = <Form />;

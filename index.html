@@ -1,12 +1,139 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modal</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0/dist/index.umd.js"></script>
+    <title>Create Deal (MVP)</title>
+    <style>
+        body{font:14px/1.45 system-ui,sans-serif;margin:16px}
+        label{display:block;margin:8px 0 4px} input,textarea,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px}
+        fieldset{border:0;padding:12px;margin:12px 0;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+        .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .actions{display:flex;gap:10px;align-items:center}
+        button{padding:10px 16px;border:0;border-radius:24px;cursor:pointer}
+        button.primary{background:#ffd44d;font-weight:700}
+        .muted{color:#666}
+    </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="module" src="/src/main.tsx"></script>
+<h2>NEW Create a job</h2>
+
+<form id="f" novalidate>
+    <fieldset>
+        <legend>Client details</legend>
+        <label>First name <input name="first_name" required></label>
+        <label>Last name  <input name="last_name"></label>
+        <label>Phone      <input name="phone"></label>
+        <label>Email      <input name="email" type="email"></label>
+    </fieldset>
+
+    <fieldset>
+        <legend>Job</legend>
+        <label>Type
+            <select name="job_type">
+                <option value="">Select</option><option>Inspection</option><option>Installation</option><option>Repair</option>
+            </select>
+        </label>
+        <label>Description <textarea name="job_desc" placeholder="Short description"></textarea></label>
+    </fieldset>
+
+    <fieldset>
+        <legend>Schedule</legend>
+        <label>Date  <input type="date" name="job_date"></label>
+        <div class="row">
+            <div><label>Start <input type="time" name="job_start"></label></div>
+            <div><label>End   <input type="time" name="job_end"></label></div>
+        </div>
+    </fieldset>
+
+    <div class="actions">
+        <button id="btn" class="primary" type="submit">Create deal</button>
+        <span id="msg" class="muted"></span>
+    </div>
+</form>
+
+<script>
+    const form = document.getElementById('f');
+    const btn  = document.getElementById('btn');
+    const msg  = document.getElementById('msg');
+
+    btn.addEventListener('click', () => {
+        console.log('[debug] click → requestSubmit()');
+        form.requestSubmit();
+    });
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('[debug] submit fired');
+        btn.disabled = true; msg.textContent = 'Creating…';
+
+        try {
+            const data = Object.fromEntries(new FormData(form).entries());
+            const fullName = [data.first_name, data.last_name].filter(Boolean).join(' ') || 'Client';
+
+            const token = getToken();
+
+            const PD_API_BASE = 'https://api.pipedrive.com/v1';
+            const pd = async (path, method='GET', body) => {
+                const url = `${PD_API_BASE}${path}${path.includes('?')?'&':'?'}api_token=${encodeURIComponent(token)}`;
+                const r = await fetch(url, {
+                    method, headers: { 'Content-Type': 'application/json', 'Accept':'application/json' },
+                    body: body ? JSON.stringify(body) : undefined
+                });
+                const j = await r.json().catch(()=>({}));
+                if (!r.ok || j.success === false) throw new Error(j.error || j.message || r.statusText);
+                return j.data;
+            };
+
+            const person = await pd('/persons', 'POST', {
+                name: fullName,
+                email: data.email ? [{ value: data.email, primary: true }] : undefined,
+                phone: data.phone ? [{ value: data.phone, primary: true }] : undefined
+            });
+
+            const dealBody = { title: `Job: ${fullName}`, person_id: person.id };
+            for (const k in CFG.fieldKeys) if (CFG.fieldKeys[k]) dealBody[CFG.fieldKeys[k]] = data[k] || null;
+            const deal = await pd('/deals', 'POST', dealBody);
+
+            const lines = [
+                `Client: ${fullName}`,
+                data.email ? `Email: ${data.email}` : '',
+                data.phone ? `Phone: ${data.phone}` : '',
+                data.job_type ? `Job type: ${data.job_type}` : '',
+                data.job_desc ? `Description: ${data.job_desc}` : '',
+                (data.job_date || data.job_start || data.job_end)
+                    ? `Scheduled: ${[data.job_date, data.job_start, data.job_end].filter(Boolean).join(' ')}` : ''
+            ].filter(Boolean).join('\n');
+            if (lines) await pd('/notes', 'POST', { deal_id: deal.id, content: lines });
+
+            msg.textContent = `✅ Deal #${deal.id} created`;
+        } catch (err) {
+            console.error(err);
+            msg.textContent = '❌ ' + err.message;
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    const sdkReady = (async () => {
+        try {
+            const sdk = await new AppExtensionsSDK().initialize();
+            await sdk.execute(AppExtensionsSDK.Command.RESIZE, { height: 760 });
+            try {
+                const me = await fetch('https://api.pipedrive.com/v1/users/me?api_token='+encodeURIComponent(getToken()))
+                    .then(r=>r.json()).catch(()=>null);
+                if (me?.data?.company?.company_domain) {
+                    document.getElementById('company').textContent = 'Company: ' + me.data.company.company_domain;
+                }
+            } catch {}
+            return sdk;
+        } catch (e) {
+            console.warn('SDK init failed (ok outside Pipedrive):', e);
+        }
+    })();
+
+    function getToken(){ return '759776fcc39056ecada7961b539cc7acee83d196'; }
+</script>
 </body>
 </html>
