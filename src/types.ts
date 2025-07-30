@@ -1,13 +1,56 @@
-import type {ReactNode} from "react";
+import type {ChangeEvent, FormEvent, InputHTMLAttributes, ReactNode} from "react";
 
 export interface ButtonProperties {
   className?: string;
   children: ReactNode;
   onClick?: () => void;
-  type?: "button" | "submit" | "reset";
+  type?: Button;
   disabled?: boolean;
 };
 
-export  interface FormActionsProperties {
-  handleSubmit: () => void
+export interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
+  className?: string;
+  name?: string;
+  type?: Input;
+  value?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInput?: (event: FormEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  error?: string;
 }
+
+export interface ClientDetailsSectionProperties {
+  onNameInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onNameChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onSurnameInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onSurnameChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onNumberInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onNumberChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onEmailInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onEmailChange?: (event: FormEvent<HTMLInputElement>) => void;
+}
+
+type Button = "button" | "submit" | "reset";
+
+type Input = "button" |
+"checkbox" |
+"color" |
+"date" |
+"datetime-local" |
+"email" |
+"file" |
+"hidden" |
+"image" |
+"month" |
+"number" |
+"password" |
+"radio" |
+"range" |
+"reset" |
+"search" |
+"submit" |
+"tel" |
+"text" |
+"time" |
+"url" |
+"week";

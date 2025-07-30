@@ -1,6 +1,7 @@
 import {FormHeader} from "./FormHeader.tsx";
 import {FormActions} from "./FormActions.tsx";
 import type {FormEvent} from "react";
+import {ClientDetailsSection} from "./ClientDetailsSection.tsx";
 
 export function CreateJobForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -9,7 +10,8 @@ export function CreateJobForm() {
   return (
     <div className="container flex">
       <FormHeader />
-      <form onSubmit={(event) => handleSubmit(event)}>
+      <form className='create-job-form' onSubmit={(event) => handleSubmit(event)}>
+        <ClientDetailsSection />
         <FormActions />
       </form>
     </div>
