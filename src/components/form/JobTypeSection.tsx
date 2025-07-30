@@ -3,6 +3,7 @@ import {Select} from "../ui/Select.tsx";
 import {useEffect, useState} from "react";
 import {getOrganizationFieldOptionsByKey, getOrganizationOptions} from "../../api/requests.ts";
 import {INDUSTRIES_KEY} from "../../constants/constants.ts";
+import {Textarea} from "../ui/Textarea.tsx";
 
 export const JobTypeSection = ({
                                  jobTypeValue,
@@ -50,7 +51,7 @@ export const JobTypeSection = ({
       onChange={onJobSourceChange}
     />
     </div>
-    <textarea
+    <Textarea
       name="jobDescription"
       placeholder="Job description (optional)"
       value={jobDescription}

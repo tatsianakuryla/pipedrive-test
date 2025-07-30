@@ -19,6 +19,15 @@ export interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
+export interface TextareaProperties {
+  className?: string;
+  name?: string;
+  placeholder?: string;
+  value?: string;
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onInput?: (event: FormEvent<HTMLTextAreaElement>) => void;
+}
+
 export interface SelectOption {
   value: string;
   label: string;
