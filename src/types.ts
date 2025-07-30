@@ -54,6 +54,19 @@ export interface JobTypeSectionProperties {
   onDescriptionChange?: (event: FormEvent<HTMLTextAreaElement>) => void;
 }
 
+export interface ServiceLocationProperties {
+  onAddressInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onAddressChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onCityInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onCityChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onStateInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onStateChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onZipCodeInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onZipCodeChange?: (event: FormEvent<HTMLInputElement>) => void;
+  countryValue?: string;
+  onCountryChange?: (event: FormEvent<HTMLSelectElement>) => void;
+}
+
 type Button = "button" | "submit" | "reset";
 
 type Input = "button" |
