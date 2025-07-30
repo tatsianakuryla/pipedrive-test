@@ -14,10 +14,10 @@ export const ClientDetailsSection = ({
   return <fieldset
     className='create-job-form__section client-details'>
     <legend
-    className='client-details__legend'>
+    className='client-details__legend legend'>
       Client Details
     </legend>
-    <div className='client-details__fullname'>
+    <div className='client-details__fullname flex'>
       <Input
         name='firstName'
         onInput={onNameInput}
@@ -35,14 +35,14 @@ export const ClientDetailsSection = ({
       name='clientNumber'
       onInput={onNumberInput}
       onChange={onNumberChange}
-      placeholder='Telephone Number'
+      placeholder='Phone'
     />
     <Input
       name='clientEmail'
       type='email'
       onInput={onEmailInput}
       onChange={onEmailChange}
-      placeholder='Email'
+      placeholder='Email (optional)'
     />
   </fieldset>
 }
