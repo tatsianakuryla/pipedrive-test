@@ -1,0 +1,12 @@
+.flex {
+    display:  flex;
+}
+
+.create-job-form,
+.container {
+    flex-direction: column;
+}
+
+.form-group {
+    flex-wrap: wrap;
+}

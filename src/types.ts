@@ -76,6 +76,17 @@ export interface ServiceLocationProperties {
   onCountryChange?: (event: FormEvent<HTMLSelectElement>) => void;
 }
 
+export interface ScheduleSectionProperties {
+  onStartDateInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onStartDateChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onStartTimeInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onStartTimeChange?: (event: FormEvent<HTMLInputElement>) => void;
+  onEndTimeInput?: (event: FormEvent<HTMLInputElement>) => void;
+  onEndTimeChange?: (event: FormEvent<HTMLInputElement>) => void;
+  technicianValue?: string;
+  onTechnicianChange?: (event: FormEvent<HTMLSelectElement>) => void;
+}
+
 type Button = "button" | "submit" | "reset";
 
 type Input = "button" |
