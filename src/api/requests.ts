@@ -1,5 +1,5 @@
 import type {Country, Option, Organization} from "../types.ts";
-import {API_TOKEN} from "../constants/constants.ts";
+import {API_TOKEN, PIPEDRIVE_API_BASE} from "../constants/constants.ts";
 
 export async function getOrganizationFieldOptionsByKey(
   fieldKey: string
@@ -9,7 +9,7 @@ export async function getOrganizationFieldOptionsByKey(
   }
 
   const response = await fetch(
-    `https://api.pipedrive.com/v1/organizationFields?api_token=${encodeURIComponent(
+    `${PIPEDRIVE_API_BASE}/organizationFields?api_token=${encodeURIComponent(
       API_TOKEN
     )}`
   );
@@ -56,10 +56,10 @@ async function getOrganizationNames(
   limit = 100
 ): Promise<string[]> {
   if (!API_TOKEN) {
-    throw new Error("VITE_PIPEDRIVE_API_TOKEN не задан");
+    throw new Error("VITE_PIPEDRIVE_API_TOKEN is not set");
   }
 
-  const url = new URL("https://api.pipedrive.com/v1/organizations");
+  const url = new URL(`${PIPEDRIVE_API_BASE}/organizations`);
   url.searchParams.set("start", String(start));
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("api_token", API_TOKEN);

@@ -4,11 +4,9 @@ export const Input = ({
                         className,
                         name,
                         type = 'text',
-                        value,
-                        onChange,
-                        onInput,
                         placeholder,
-                        error,
+                        errors,
+                        ...rest
                       }: InputProperties) => {
   return (
     <div className='input-wrapper flex'>
@@ -16,12 +14,12 @@ export const Input = ({
         className={className}
         name={name}
         type={type}
-        value={value}
-        onChange={onChange}
-        onInput={onInput}
         placeholder={placeholder}
+        {...rest}
       />
-      {error && <div className='input-error'>{error}</div>}
+      {errors?.[name]?.message && (
+        <div className="input-error">{String(errors[name]?.message)}</div>
+      )}
     </div>
   );
 };

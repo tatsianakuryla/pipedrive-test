@@ -1,18 +1,11 @@
-import type {JobTypeSectionProperties, Option} from "../../types.ts";
+import type {Option, SectionProperties} from "../../types.ts";
 import {Select} from "../ui/Select.tsx";
 import {useEffect, useState} from "react";
 import {getOrganizationFieldOptionsByKey, getOrganizationOptions} from "../../api/requests.ts";
 import {INDUSTRIES_KEY} from "../../constants/constants.ts";
 import {Textarea} from "../ui/Textarea.tsx";
 
-export const JobTypeSection = ({
-                                 jobTypeValue,
-                                 onJobTypeChange,
-                                 jobSourceValue,
-                                 onJobSourceChange,
-                                 jobDescription,
-                                 onDescriptionChange,
-                               }: JobTypeSectionProperties) => {
+export const JobTypeSection = ({ register, errors }: SectionProperties) => {
   const [jobTypeOptions, setJobTypeOptions] = useState<Option[]>([]);
   const [sourceOptions, setSourceOptions] = useState<Option[]>([]);
 
@@ -34,29 +27,29 @@ export const JobTypeSection = ({
     </legend>
     <div className='job-info__wrapper flex'>
     <Select
+      {...register("jobType", { required: "Please select job type" })}
       className="job-info__type"
       name="jobType"
       placeholder="Job type"
       options={jobTypeOptions}
-      value={jobTypeValue}
-      onChange={onJobTypeChange}
+      errors={errors}
     />
 
     <Select
+      {...register("jobSource")}
       className="job-info__source"
       name="jobSource"
       placeholder="Job source"
       options={sourceOptions}
-      value={jobSourceValue}
-      onChange={onJobSourceChange}
+      errors={errors}
     />
     </div>
     <Textarea
+      {...register("jobDescription")}
       name="jobDescription"
       placeholder="Job description (optional)"
-      value={jobDescription}
-      onChange={onDescriptionChange}
       className="job-info__description"
+      errors={errors}
     />
   </fieldset>
 }

@@ -1,18 +1,9 @@
 import {Input} from "../ui/Input.tsx";
-import type {ScheduleSectionProperties} from "../../types.ts";
+import type {SectionProperties} from "../../types.ts";
 import {Select} from "../ui/Select.tsx";
 import {TECHNICIANS} from "../../constants/constants.ts";
 
-export const ScheduleSection = ({
-                                  onStartDateInput,
-                                  onStartDateChange,
-                                  onStartTimeInput,
-                                  onStartTimeChange,
-                                  onEndTimeInput,
-                                  onEndTimeChange,
-                                  technicianValue,
-                                  onTechnicianChange
-                                }: ScheduleSectionProperties) => {
+export const ScheduleSection = ({register, errors}: SectionProperties) => {
 
   return <fieldset
     className='create-job-form__section schedule'>
@@ -21,41 +12,37 @@ export const ScheduleSection = ({
       Schedule
     </legend>
     <Input
+      {...register('jobDate')}
       className='schedule__input schedule__input_start-date'
       type='date'
-      name='start-date'
-      onInput={onStartDateInput}
-      onChange={onStartDateChange}
       placeholder='Start date'
+      errors={errors}
     />
 
     <div className='schedule__time-wrapper flex'>
       <Input
+        {...register('startTime')}
         className='schedule__input schedule__input_start-time'
         type='time'
-        name='start-time'
-        onInput={onStartTimeInput}
-        onChange={onStartTimeChange}
         placeholder='Start time'
+        errors={errors}
       />
 
       <Input
+        {...register('endTime')}
         className='schedule__input schedule__input_end-time'
         type='time'
-        name='end-time'
-        onInput={onEndTimeInput}
-        onChange={onEndTimeChange}
         placeholder='End time'
+        errors={errors}
       />
     </div>
 
       <Select
+        {...register('technician')}
         className="schedule__technician"
-        name="technician"
         placeholder="Select technician"
         options={TECHNICIANS}
-        value={technicianValue}
-        onChange={onTechnicianChange}
+        errors={errors}
       />
   </fieldset>
 }

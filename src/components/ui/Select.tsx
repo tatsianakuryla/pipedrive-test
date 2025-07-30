@@ -3,19 +3,17 @@ import type { SelectProperties } from "../../types.ts";
 export const Select = ({
                          className,
                          name,
-                         value,
-                         onChange,
                          options,
                          placeholder,
-                         error,
+                         errors,
+                         ...rest
                        }: SelectProperties) => {
   return (
     <div className="select-wrapper">
       <select
         className={className}
         name={name}
-        value={value}
-        onChange={onChange}
+        {...rest}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => (
@@ -24,7 +22,9 @@ export const Select = ({
           </option>
         ))}
       </select>
-      {error && <div className="select-error">{error}</div>}
+      {name && errors?.[name]?.message && (
+        <div className="select-error">{String(errors[name]?.message)}</div>
+      )}
     </div>
   );
 };

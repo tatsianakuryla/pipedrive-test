@@ -10,3 +10,5 @@ export const TECHNICIANS = [
   { label: "George Ivanov", value: "george-ivanov" },
   { label: "Hiro Tanaka", value: "hiro-tanaka" }
 ];
+
+export const PIPEDRIVE_API_BASE = 'https://api.pipedrive.com/v1';

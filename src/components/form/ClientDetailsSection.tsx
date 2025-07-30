@@ -1,16 +1,7 @@
 import {Input} from "../ui/Input.tsx";
-import type {ClientDetailsSectionProperties} from "../../types.ts";
+import type {SectionProperties} from "../../types.ts";
 
-export const ClientDetailsSection = ({
-                                       onNameInput,
-                                       onNameChange,
-                                       onSurnameInput,
-                                       onSurnameChange,
-                                       onNumberInput,
-                                       onNumberChange,
-                                       onEmailInput,
-                                       onEmailChange,
-                                      }: ClientDetailsSectionProperties) => {
+export const ClientDetailsSection = ({ register, errors }: SectionProperties) => {
   return <fieldset
     className='create-job-form__section client-details'>
     <legend
@@ -19,30 +10,31 @@ export const ClientDetailsSection = ({
     </legend>
     <div className='client-details__fullname flex'>
       <Input
-        name='firstName'
-        onInput={onNameInput}
-        onChange={onNameChange}
+        {...register("firstName", { required: "First name is required" })}
         placeholder='First Name'
+        errors={errors}
       />
       <Input
-        name='lastName'
-        onInput={onSurnameInput}
-        onChange={onSurnameChange}
+        {...register("lastName", { required: "Last name is required" })}
         placeholder='Last Name'
+        errors={errors}
       />
     </div>
     <Input
-      name='clientNumber'
-      onInput={onNumberInput}
-      onChange={onNumberChange}
+      {...register("clientNumber", { required: "Phone number is required" })}
       placeholder='Phone'
+      errors={errors}
     />
     <Input
-      name='clientEmail'
-      type='email'
-      onInput={onEmailInput}
-      onChange={onEmailChange}
+      {...register("email", {
+        pattern: {
+          value: /^\S+@\S+$/i,
+          message: "Invalid email address",
+        },
+      })}
+      type='text'
       placeholder='Email (optional)'
+      errors={errors}
     />
   </fieldset>
 }

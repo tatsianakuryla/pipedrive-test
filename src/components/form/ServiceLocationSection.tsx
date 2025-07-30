@@ -1,21 +1,10 @@
 import {Input} from "../ui/Input.tsx";
-import type {Option, ServiceLocationProperties} from "../../types.ts";
+import type {Option, SectionProperties} from "../../types.ts";
 import {Select} from "../ui/Select.tsx";
 import {useEffect, useState} from "react";
 import {getCountryOptions} from "../../api/requests.ts";
 
-export const ServiceLocationSection = ({
-                                         onAddressInput,
-                                         onAddressChange,
-                                         onCityInput,
-                                         onCityChange,
-                                         onStateInput,
-                                         onStateChange,
-                                         onZipCodeInput,
-                                         onZipCodeChange,
-                                         countryValue,
-                                         onCountryChange,
-                                     }: ServiceLocationProperties) => {
+export const ServiceLocationSection = ({register, errors}: SectionProperties) => {
   const [countryOptions, setCountryOptions] = useState<Option[]>([]);
 
   useEffect(() => {
@@ -31,42 +20,37 @@ export const ServiceLocationSection = ({
       Service Location
     </legend>
       <Input
+        {...register('address')}
         className='service-location__input service-location__input_address'
-        name='Address'
-        onInput={onAddressInput}
-        onChange={onAddressChange}
         placeholder='Address'
+        errors={errors}
       />
     <Input
+      {...register('city')}
       className='service-location__input service-location__input_city'
-      name='City'
-      onInput={onCityInput}
-      onChange={onCityChange}
       placeholder='City'
+      errors={errors}
     />
     <Input
+      {...register('state')}
       className='service-location__input service-location__input_state'
-      name='State'
-      onInput={onStateInput}
-      onChange={onStateChange}
       placeholder='State'
+      errors={errors}
     />
 
     <div className='service-location__wrapper flex'>
       <Input
+        {...register('zipCode')}
         className='service-location__input service-location__input_zip-code'
-        name='zip-code'
-        onInput={onZipCodeInput}
-        onChange={onZipCodeChange}
         placeholder='Zip code'
+        errors={errors}
       />
       <Select
+        {...register('area')}
         className="service-location__area"
-        name="area"
         placeholder="Area"
         options={countryOptions}
-        value={countryValue}
-        onChange={onCountryChange}
+        errors={errors}
       />
     </div>
   </fieldset>

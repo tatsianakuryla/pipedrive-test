@@ -1,4 +1,5 @@
-import type {ChangeEvent, FormEvent, InputHTMLAttributes, ReactNode, SelectHTMLAttributes} from "react";
+import type {InputHTMLAttributes, ReactNode, SelectHTMLAttributes} from "react";
+import type {FieldErrors, UseFormRegister} from "react-hook-form";
 
 export interface ButtonProperties {
   className?: string;
@@ -10,22 +11,15 @@ export interface ButtonProperties {
 
 export interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
-  name?: string;
   type?: Input;
-  value?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onInput?: (event: FormEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  error?: string;
+  errors?: FieldErrors;
 }
 
 export interface TextareaProperties {
   className?: string;
-  name?: string;
   placeholder?: string;
-  value?: string;
-  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  onInput?: (event: FormEvent<HTMLTextAreaElement>) => void;
+  errors?: FieldErrors;
 }
 
 export interface SelectOption {
@@ -35,56 +29,14 @@ export interface SelectOption {
 
 export interface SelectProperties extends SelectHTMLAttributes<HTMLSelectElement> {
   className?: string;
-  name?: string;
-  value?: string;
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
   options: SelectOption[];
   placeholder?: string;
-  error?: string;
+  errors?: FieldErrors;
 }
 
-export interface ClientDetailsSectionProperties {
-  onNameInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onNameChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onSurnameInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onSurnameChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onNumberInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onNumberChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onEmailInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onEmailChange?: (event: FormEvent<HTMLInputElement>) => void;
-}
-
-export interface JobTypeSectionProperties {
-  jobTypeValue?: string;
-  onJobTypeChange?: (event: FormEvent<HTMLSelectElement>) => void;
-  jobSourceValue?: string;
-  onJobSourceChange?: (event: FormEvent<HTMLSelectElement>) => void;
-  jobDescription?: string;
-  onDescriptionChange?: (event: FormEvent<HTMLTextAreaElement>) => void;
-}
-
-export interface ServiceLocationProperties {
-  onAddressInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onAddressChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onCityInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onCityChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onStateInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onStateChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onZipCodeInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onZipCodeChange?: (event: FormEvent<HTMLInputElement>) => void;
-  countryValue?: string;
-  onCountryChange?: (event: FormEvent<HTMLSelectElement>) => void;
-}
-
-export interface ScheduleSectionProperties {
-  onStartDateInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onStartDateChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onStartTimeInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onStartTimeChange?: (event: FormEvent<HTMLInputElement>) => void;
-  onEndTimeInput?: (event: FormEvent<HTMLInputElement>) => void;
-  onEndTimeChange?: (event: FormEvent<HTMLInputElement>) => void;
-  technicianValue?: string;
-  onTechnicianChange?: (event: FormEvent<HTMLSelectElement>) => void;
+  export interface SectionProperties {
+  register: UseFormRegister<FormValues>;
+  errors: FieldErrors<FormValues>;
 }
 
 type Button = "button" | "submit" | "reset";
@@ -119,3 +71,22 @@ export interface Organization {
   id: number;
   name: string;
 }
+
+export type FormValues = {
+  firstName: string;
+  lastName: string;
+  clientNumber: string;
+  email: string;
+  jobType: string;
+  jobSource: string;
+  jobDescription: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  area: string;
+  jobDate: string;
+  startTime: string;
+  endTime: string;
+  technician: string;
+};
