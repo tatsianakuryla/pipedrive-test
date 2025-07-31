@@ -10,6 +10,7 @@ import {JobTypeSection} from "./JobTypeSection.tsx";
 import {ServiceLocationSection} from "./ServiceLocationSection.tsx";
 import {ScheduleSection} from "./ScheduleSection.tsx";
 import {FormActions} from "./FormActions.tsx";
+import './form.css';
 
 export function CreateJobForm() {
   const {
@@ -56,7 +57,7 @@ export function CreateJobForm() {
 
   return (
     <form className='create-job-form flex' onSubmit={handleSubmit(onSubmit)}>
-      <div className='form-group flex'>
+      <div className='create-job-form__group flex'>
         <ClientDetailsSection register={register} errors={errors} />
         <JobTypeSection
           register={register}

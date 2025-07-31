@@ -8,7 +8,7 @@ export const Select = ({
                          ...rest
                        }: SelectProperties) => {
   return (
-    <div className="select-wrapper">
+    <div className="select-wrapper flex">
       <select
         className={className}
         {...rest}

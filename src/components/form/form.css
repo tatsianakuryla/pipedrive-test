@@ -1,0 +1,97 @@
+.create-job-form {
+    flex-direction: column;
+    align-items: center;
+    justify-content:  center;
+    gap: var(--gap);
+    margin: auto;
+    padding:  var(--padding);
+    border-radius: var(--border-radius);
+    max-width: 1000px;
+    width: 100%;
+    background-color: #fff;
+}
+
+.create-job-form__group {
+    justify-content: center;
+    flex-wrap: wrap;
+    --offset: 1;
+    gap: var(--gap);
+}
+
+.create-job-form__section {
+    flex-direction: column;
+    flex-grow: 1;
+    width: calc((100% - var(--offset) * var(--gap)) / (var(--offset) + 1));
+    max-width: 480px;
+    min-width: 300px;
+    gap: var(--gap);
+    margin: 0;
+    padding: calc(var(--padding) * 1.5);
+    border:  1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--boxshadow-section);
+}
+
+.legend {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-legend);
+}
+
+.textarea-wrapper,
+.select-wrapper,
+.input-wrapper {
+    flex-direction: column;
+    gap: calc(var(--gap) / 2);
+}
+
+.textarea-wrapper,
+.job-info__description,
+.client-details__wrapper .input-wrapper,
+.client-details__wrapper .select-wrapper,
+.service-location__wrapper .input-wrapper,
+.service-location__wrapper .select-wrapper,
+.job-info__wrapper .select-wrapper,
+.job-info__wrapper .input-wrapper,
+.schedule__time-wrapper .input-wrapper,
+.schedule__time-wrapper .select-wrapper {
+    flex: 1;
+}
+
+.form__actions,
+.client-details__wrapper,
+.service-location__wrapper,
+.schedule__time-wrapper,
+.job-info__wrapper {
+    gap: var(--gap);
+}
+
+.select-error,
+.input-error {
+    padding-left: var(--padding);
+    font-size: 0.7rem;
+    color: var(--color-error);
+}
+
+.form__button_create-job,
+.form__button_save-info {
+    padding: var(--padding);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--color-bg-button);
+    color: var(--color-button);
+    transition: background-color 0.2s ease;
+}
+
+.form__button_create-job:hover,
+.form__button_save-info:hover {
+    background-color: var(--color-bg-button-hover);
+}
+
+.form__button_save-info:disabled {
+    color: var(--color-button-disabled);
+    background-color: var(--color-bg-disabled);
+    cursor: not-allowed;
+}

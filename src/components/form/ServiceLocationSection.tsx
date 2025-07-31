@@ -5,11 +5,11 @@ import {Select} from "../ui/Select.tsx";
 export const ServiceLocationSection = ({register, errors, areaOptions}: ServiceLocationSectionProperties) => {
 
   return <fieldset
-    className='create-job-form__section service-location'>
-    <legend
+    className='create-job-form__section service-location flex'>
+    <h2
       className='service-location__legend legend'>
       Service Location
-    </legend>
+    </h2>
       <Input
         {...register('address')}
         className='service-location__input service-location__input_address'

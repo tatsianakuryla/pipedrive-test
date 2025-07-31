@@ -5,11 +5,11 @@ import {Textarea} from "../ui/Textarea.tsx";
 export const JobTypeSection = ({ register, errors, jobTypeOptions, jobSourceOptions }: JobTypeSectionProperties) => {
 
   return <fieldset
-    className='create-job-form__section job-info'>
-    <legend
+    className='create-job-form__section job-info flex'>
+    <h2
       className='job-info__legend legend'>
       Job Type
-    </legend>
+    </h2>
     <div className='job-info__wrapper flex'>
     <Select
       {...register("jobType", { required: "Please select job type" })}

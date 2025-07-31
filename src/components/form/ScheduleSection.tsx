@@ -5,11 +5,11 @@ import {Select} from "../ui/Select.tsx";
 export const ScheduleSection = ({register, errors, techniciansOptions}: ScheduleSectionProperties) => {
 
   return <fieldset
-    className='create-job-form__section schedule'>
-    <legend
+    className='create-job-form__section schedule flex'>
+    <h2
       className='schedule__legend legend'>
       Schedule
-    </legend>
+    </h2>
     <Input
       {...register('jobDate')}
       className='schedule__input schedule__input_start-date'
