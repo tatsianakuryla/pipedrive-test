@@ -70,6 +70,10 @@ select {
     cursor: pointer;
 }
 
+select {
+    appearance: none;
+}
+
 input:focus,
 select:focus,
 textarea:focus {

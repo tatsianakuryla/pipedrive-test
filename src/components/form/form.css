@@ -95,3 +95,42 @@
     background-color: var(--color-bg-disabled);
     cursor: not-allowed;
 }
+
+.select-wrapper-for-after {
+    position: relative;
+    width: 100%;
+}
+
+
+.select-wrapper-for-after select {
+    padding: 10px 44px 10px 14px;
+}
+
+.select-wrapper-for-after::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9L12 15L18 9' stroke='%23666' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.2s ease;
+}
+
+.select-wrapper-for-after.open::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.select-wrapper-for-after::before {
+    content: '';
+    position: absolute;
+    right: 36px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background-color: #ddd;
+}
