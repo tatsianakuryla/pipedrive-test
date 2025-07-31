@@ -52,6 +52,10 @@ export interface ServiceLocationSectionProperties extends SectionProperties {
   areaOptions: SelectOption[];
 }
 
+export interface DealMessageProperties {
+  dealUrl: string | undefined;
+}
+
 type Button = "button" | "submit" | "reset";
 
 type Input = "button" |
