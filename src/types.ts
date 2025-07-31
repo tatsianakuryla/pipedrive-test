@@ -13,30 +13,43 @@ export interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   type?: Input;
   placeholder?: string;
-  errors?: FieldErrors;
+  error?: string;
 }
 
 export interface TextareaProperties {
   className?: string;
   placeholder?: string;
-  errors?: FieldErrors;
+  error?: string;
 }
 
 export interface SelectOption {
-  value: string;
   label: string;
+  value: string;
 }
 
 export interface SelectProperties extends SelectHTMLAttributes<HTMLSelectElement> {
   className?: string;
   options: SelectOption[];
   placeholder?: string;
-  errors?: FieldErrors;
+  error?: string;
 }
 
-  export interface SectionProperties {
+export interface SectionProperties {
   register: UseFormRegister<FormValues>;
   errors: FieldErrors<FormValues>;
+}
+
+export interface JobTypeSectionProperties extends SectionProperties {
+  jobTypeOptions: SelectOption[];
+  jobSourceOptions: SelectOption[];
+}
+
+export interface ScheduleSectionProperties extends SectionProperties {
+  techniciansOptions: SelectOption[];
+}
+
+export interface ServiceLocationSectionProperties extends SectionProperties {
+  areaOptions: SelectOption[];
 }
 
 type Button = "button" | "submit" | "reset";
@@ -64,29 +77,31 @@ type Input = "button" |
 "url" |
 "week";
 
-export type Option = { label: string; value: string };
-export type Country = { name: { common: string }; cca2: string };
-
-export interface Organization {
-  id: number;
-  name: string;
-}
-
 export type FormValues = {
   firstName: string;
   lastName: string;
-  clientNumber: string;
+  phone: string;
   email: string;
+
   jobType: string;
   jobSource: string;
   jobDescription: string;
+
   address: string;
   city: string;
   state: string;
   zipCode: string;
   area: string;
+
   jobDate: string;
   startTime: string;
   endTime: string;
   technician: string;
 };
+
+export interface Person {
+  name: string;
+  email?: string;
+  number?: string;
+  id: string;
+}

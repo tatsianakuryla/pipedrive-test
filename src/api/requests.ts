@@ -1,91 +1,58 @@
-import type {Country, Option, Organization} from "../types.ts";
 import {API_TOKEN, PIPEDRIVE_API_BASE} from "../constants/constants.ts";
+import type {HTTPMethod, PipedriveResponse, RequestBody} from "./api-types.ts";
+import type {SelectOption} from "../types.ts";
 
-export async function getOrganizationFieldOptionsByKey(
-  fieldKey: string
-): Promise<Option[]> {
-  if (!API_TOKEN) {
-    throw new Error("VITE_PIPEDRIVE_API_TOKEN is not set");
+export async function getDealFieldOptions(): Promise<Record<string, SelectOption[]>> {
+  const response = await fetch(`${PIPEDRIVE_API_BASE}/dealFields?api_token=${API_TOKEN}`);
+  const json = await response.json();
+
+  if (!json.success || !Array.isArray(json.data)) {
+    throw new Error("Failed to load dealFields");
   }
 
-  const response = await fetch(
-    `${PIPEDRIVE_API_BASE}/organizationFields?api_token=${encodeURIComponent(
-      API_TOKEN
-    )}`
-  );
-  if (!response.ok) {
-    throw new Error(`Failed to fetch fields: HTTP ${response.status}`);
+  const result: Record<string, SelectOption[]> = {};
+
+  for (const field of json.data) {
+    if (!["enum", "set"].includes(field.field_type)) continue;
+
+    const name = field.name.trim().toLowerCase().replace(/\s+/g, "");
+    result[name] = (field.options ?? []).map((option: any) => ({
+      label: option.label,
+      value: option.id ?? option.label.toLowerCase().replace(/\s+/g, "_"),
+    }));
   }
 
-  const payload: {
-    data: Array<{
-      key: string;
-      field_type: string;
-      options?: Array<{ id?: number | string; label: string }>;
-    }>;
-  } = await response.json();
-
-  const field = payload.data.find(
-    (field) =>
-      field.key === fieldKey && (field.field_type === "enum" || field.field_type === "set")
-  );
-  const opts = field?.options ?? [];
-  return opts.map((option) => ({
-    label: option.label,
-    value: String(option.id ?? option.label),
-  }));
+  return result;
 }
 
-export async function getCountryOptions(): Promise<Option[]> {
-  const response = await fetch(
-    "https://restcountries.com/v3.1/all?fields=name,cca2"
-  );
-  if (!response.ok) {
-    throw new Error(`Failed to fetch countries: ${response.status}`);
+export async function pipedriveRequest<TResponse>(
+  path: string,
+  method: HTTPMethod = "GET",
+  body?: RequestBody
+): Promise<TResponse> {
+
+  const url = `${PIPEDRIVE_API_BASE}${path}${path.includes("?") ? "&" : "?"}api_token=${encodeURIComponent(API_TOKEN)}`;
+
+  const response = await fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  let json: PipedriveResponse<TResponse>;
+
+  try {
+    json = await response.json();
+  } catch {
+    throw new Error("Invalid JSON response");
   }
 
-  const data = (await response.json()) as Country[];
+  if (!response.ok || !json.success) {
+    throw new Error(json.error || json.message || response.statusText);
+  }
 
-  return data
-    .map((country) => ({ label: country.name.common, value: country.cca2 }))
-    .sort((a, b) => a.label.localeCompare(b.label));
+  return json.data;
 }
-
-async function getOrganizationNames(
-  start = 0,
-  limit = 100
-): Promise<string[]> {
-  if (!API_TOKEN) {
-    throw new Error("VITE_PIPEDRIVE_API_TOKEN is not set");
-  }
-
-  const url = new URL(`${PIPEDRIVE_API_BASE}/organizations`);
-  url.searchParams.set("start", String(start));
-  url.searchParams.set("limit", String(limit));
-  url.searchParams.set("api_token", API_TOKEN);
-
-  const response = await fetch(url.toString());
-  if (!response.ok) {
-    throw new Error(`HTTP error ${response.status}`);
-  }
-
-  const payload: {
-    success: boolean;
-    data: Organization[];
-  } = await response.json();
-
-  if (!payload.success) {
-    throw new Error("Pipedrive returned success=false");
-  }
-
-  return payload.data.map(organization => organization.name);
-}
-
-export async function getOrganizationOptions(
-  start = 0,
-  limit = 50
-): Promise<Option[]> {
-  const names = await getOrganizationNames(start, limit);
-  return names.map((name) => ({ label: name, value: name }));
-}
-

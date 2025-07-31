@@ -12,18 +12,18 @@ export const ClientDetailsSection = ({ register, errors }: SectionProperties) =>
       <Input
         {...register("firstName", { required: "First name is required" })}
         placeholder='First Name'
-        errors={errors}
+        error={errors.firstName?.message}
       />
       <Input
         {...register("lastName", { required: "Last name is required" })}
         placeholder='Last Name'
-        errors={errors}
+        error={errors.lastName?.message}
       />
     </div>
     <Input
-      {...register("clientNumber", { required: "Phone number is required" })}
+      {...register("phone", { required: "Phone number is required" })}
       placeholder='Phone'
-      errors={errors}
+      error={errors.phone?.message}
     />
     <Input
       {...register("email", {
@@ -34,7 +34,7 @@ export const ClientDetailsSection = ({ register, errors }: SectionProperties) =>
       })}
       type='text'
       placeholder='Email (optional)'
-      errors={errors}
+      error={errors.email?.message}
     />
   </fieldset>
 }

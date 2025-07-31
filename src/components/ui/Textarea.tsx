@@ -1,10 +1,9 @@
 import type {TextareaProperties} from "../../types.ts";
 
-export const Textarea = ({name, placeholder, className, errors, ...rest}: TextareaProperties) => {
+export const Textarea = ({ placeholder, className, error, ...rest}: TextareaProperties) => {
   return (
     <div className="textarea-wrapper">
       <textarea
-      name={name}
       placeholder={placeholder}
       className={className}
       {...rest}

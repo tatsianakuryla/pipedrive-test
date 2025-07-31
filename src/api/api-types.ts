@@ -13,3 +13,14 @@ export interface DealField {
 export interface DealFieldsResponse {
   data: DealField[];
 }
+
+export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
+
+export interface PipedriveResponse<T> {
+  success: boolean;
+  data: T;
+  error?: string;
+  message?: string;
+}
+
+export type RequestBody = Record<string, unknown> | undefined;

@@ -1,9 +1,8 @@
 import {Input} from "../ui/Input.tsx";
-import type {SectionProperties} from "../../types.ts";
+import type {ScheduleSectionProperties} from "../../types.ts";
 import {Select} from "../ui/Select.tsx";
-import {TECHNICIANS} from "../../constants/constants.ts";
 
-export const ScheduleSection = ({register, errors}: SectionProperties) => {
+export const ScheduleSection = ({register, errors, techniciansOptions}: ScheduleSectionProperties) => {
 
   return <fieldset
     className='create-job-form__section schedule'>
@@ -16,7 +15,7 @@ export const ScheduleSection = ({register, errors}: SectionProperties) => {
       className='schedule__input schedule__input_start-date'
       type='date'
       placeholder='Start date'
-      errors={errors}
+      error={errors.jobDate?.message}
     />
 
     <div className='schedule__time-wrapper flex'>
@@ -25,7 +24,7 @@ export const ScheduleSection = ({register, errors}: SectionProperties) => {
         className='schedule__input schedule__input_start-time'
         type='time'
         placeholder='Start time'
-        errors={errors}
+        error={errors.startTime?.message}
       />
 
       <Input
@@ -33,7 +32,7 @@ export const ScheduleSection = ({register, errors}: SectionProperties) => {
         className='schedule__input schedule__input_end-time'
         type='time'
         placeholder='End time'
-        errors={errors}
+        error={errors.endTime?.message}
       />
     </div>
 
@@ -41,8 +40,8 @@ export const ScheduleSection = ({register, errors}: SectionProperties) => {
         {...register('technician')}
         className="schedule__technician"
         placeholder="Select technician"
-        options={TECHNICIANS}
-        errors={errors}
+        options={techniciansOptions}
+        error={errors.technician?.message}
       />
   </fieldset>
 }
