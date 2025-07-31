@@ -7,25 +7,44 @@ import {ScheduleSection} from "./ScheduleSection.tsx";
 import { useForm } from "react-hook-form";
 import type {FormValues, SelectOption} from "../../types.ts";
 import {useEffect, useState} from "react";
-import {getDealFieldOptions} from "../../api/requests.ts";
+import {getDealFieldOptions, loadFieldKeyMapFromAPI} from "../../api/requests.ts";
 import {Spinner} from "../ui/Spinner/Spinner.tsx";
+import {onSubmitDeal} from "../../services/submitDeal.ts";
 
 export function CreateJobForm() {
   const {
     register,
     handleSubmit,
+    getValues,
+    reset,
     formState: { errors },
   } = useForm<FormValues>();
   const [optionsMap, setOptionsMap] = useState<Record<string, SelectOption[]>>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [fieldKeyMap, setFieldKeyMap] = useState<Partial<Record<keyof FormValues, string>>>({});
 
   useEffect(() => {
-    getDealFieldOptions().then((response) => {
-      setOptionsMap(response);
-      setIsLoading(false);
-    });
+    Promise.all([getDealFieldOptions(), loadFieldKeyMapFromAPI()])
+      .then(([optionsResponse, keyMap]) => {
+        setOptionsMap(optionsResponse);
+        setFieldKeyMap(keyMap);
+      })
+      .catch((error) => {
+        console.error("Error loading form setup data:", error);
+      })
+      .finally(() => setIsLoading(false));
   }, []);
-  const onSubmit = () => {};
+
+  const onSubmit = async () => {
+    const data = getValues();
+    try {
+      await onSubmitDeal(data, fieldKeyMap);
+      reset();
+    }
+    catch (error) {
+      throw error;
+    }
+  };
 
   if (isLoading) return <Spinner />;
 

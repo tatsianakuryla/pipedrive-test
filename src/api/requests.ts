@@ -1,6 +1,6 @@
-import {API_TOKEN, PIPEDRIVE_API_BASE} from "../constants/constants.ts";
+import {API_TOKEN, dealFieldNameToFormKey, PIPEDRIVE_API_BASE} from "../constants/constants.ts";
 import type {HTTPMethod, PipedriveResponse, RequestBody} from "./api-types.ts";
-import type {SelectOption} from "../types.ts";
+import type {FormValues, SelectOption} from "../types.ts";
 
 export async function getDealFieldOptions(): Promise<Record<string, SelectOption[]>> {
   const response = await fetch(`${PIPEDRIVE_API_BASE}/dealFields?api_token=${API_TOKEN}`);
@@ -20,6 +20,26 @@ export async function getDealFieldOptions(): Promise<Record<string, SelectOption
       label: option.label,
       value: option.id ?? option.label.toLowerCase().replace(/\s+/g, "_"),
     }));
+  }
+
+  return result;
+}
+
+export async function loadFieldKeyMapFromAPI(): Promise<Partial<Record<keyof FormValues, string>>> {
+  const response = await fetch(`${PIPEDRIVE_API_BASE}/dealFields?api_token=${API_TOKEN}`);
+  const json = await response.json();
+
+  if (!json.success || !Array.isArray(json.data)) {
+    throw new Error("Failed to fetch dealFields");
+  }
+
+  const result: Partial<Record<keyof FormValues, string>> = {};
+
+  for (const field of json.data) {
+    const formKey = dealFieldNameToFormKey[field.name];
+    if (formKey) {
+      result[formKey] = field.key;
+    }
   }
 
   return result;
@@ -51,7 +71,9 @@ export async function pipedriveRequest<TResponse>(
   }
 
   if (!response.ok || !json.success) {
-    throw new Error(json.error || json.message || response.statusText);
+    throw new Error(
+      `Pipedrive API error: ${json.error || json.message || response.statusText}`
+    );
   }
 
   return json.data;

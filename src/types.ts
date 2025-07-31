@@ -1,8 +1,11 @@
 import type {InputHTMLAttributes, ReactNode, SelectHTMLAttributes} from "react";
 import type {FieldErrors, UseFormRegister} from "react-hook-form";
 
-export interface ButtonProperties {
+interface ComponentsProperties {
   className?: string;
+}
+
+export interface ButtonProperties extends ComponentsProperties{
   children: ReactNode;
   onClick?: () => void;
   type?: Button;
@@ -10,14 +13,12 @@ export interface ButtonProperties {
 }
 
 export interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
-  className?: string;
   type?: Input;
   placeholder?: string;
   error?: string;
 }
 
-export interface TextareaProperties {
-  className?: string;
+export interface TextareaProperties extends ComponentsProperties {
   placeholder?: string;
   error?: string;
 }
@@ -28,7 +29,6 @@ export interface SelectOption {
 }
 
 export interface SelectProperties extends SelectHTMLAttributes<HTMLSelectElement> {
-  className?: string;
   options: SelectOption[];
   placeholder?: string;
   error?: string;
@@ -98,10 +98,3 @@ export type FormValues = {
   endTime: string;
   technician: string;
 };
-
-export interface Person {
-  name: string;
-  email?: string;
-  number?: string;
-  id: string;
-}
