@@ -1,4 +1,3 @@
-import {FormHeader} from "./FormHeader.tsx";
 import {FormActions} from "./FormActions.tsx";
 import {ClientDetailsSection} from "./ClientDetailsSection.tsx";
 import {JobTypeSection} from "./JobTypeSection.tsx";
@@ -49,8 +48,6 @@ export function CreateJobForm() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="container flex">
-      <FormHeader />
       <form className='create-job-form flex' onSubmit={handleSubmit(onSubmit)}>
         <div className='form-group flex'>
           <ClientDetailsSection register={register} errors={errors} />
@@ -60,6 +57,5 @@ export function CreateJobForm() {
         </div>
         <FormActions />
       </form>
-    </div>
   );
 }
