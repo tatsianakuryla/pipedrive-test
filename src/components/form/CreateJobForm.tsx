@@ -1,18 +1,18 @@
-import {Spinner} from "../ui/Spinner/Spinner.tsx";
-import {DealMessage} from "../ui/DealMessage/DealMessage.tsx";
-import {useForm} from "react-hook-form";
-import type {FormValues, SelectOption} from "../../types.ts";
-import {useEffect, useState} from "react";
-import {getDealFieldOptions, loadFieldKeyMapFromAPI} from "../../api/requests.ts";
-import {onSubmitDeal} from "../../services/submitDeal.ts";
-import {ClientDetailsSection} from "./ClientDetailsSection.tsx";
-import {JobTypeSection} from "./JobTypeSection.tsx";
-import {ServiceLocationSection} from "./ServiceLocationSection.tsx";
-import {ScheduleSection} from "./ScheduleSection.tsx";
-import {FormActions} from "./FormActions.tsx";
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import Spinner from '../ui/Spinner/Spinner.tsx';
+import DealMessage from '../ui/DealMessage/DealMessage.tsx';
+import type { FormValues, SelectOption } from '../../types.ts';
+import { getDealFieldOptions, loadFieldKeyMapFromAPI } from '../../api/requests.ts';
+import onSubmitDeal from '../../services/submitDeal.ts';
+import ClientDetailsSection from './ClientDetailsSection.tsx';
+import JobTypeSection from './JobTypeSection.tsx';
+import ServiceLocationSection from './ServiceLocationSection.tsx';
+import ScheduleSection from './ScheduleSection.tsx';
+import FormActions from './FormActions.tsx';
 import './form.css';
 
-export function CreateJobForm() {
+function CreateJobForm() {
   const {
     register,
     handleSubmit,
@@ -35,29 +35,25 @@ export function CreateJobForm() {
         setFieldKeyMap(keyMap);
       })
       .catch((error) => {
-        console.error("Error loading form setup data:", error);
+        throw error;
       })
       .finally(() => setIsLoading(false));
   }, []);
 
   const onSubmit = async () => {
     const data = getValues();
-    try {
-      const dealId = await onSubmitDeal(data, fieldKeyMap);
-      setDealUrl(`https://app.pipedrive.com/deal/${dealId}`);
-      setIsDealSubmitted(true);
-      reset();
-    } catch (error) {
-      console.error("Deal submission error:", error);
-    }
+    const dealId = await onSubmitDeal(data, fieldKeyMap);
+    setDealUrl(`https://app.pipedrive.com/deal/${dealId}`);
+    setIsDealSubmitted(true);
+    reset();
   };
 
   if (isLoading) return <Spinner />;
   if (isDealSubmitted) return <DealMessage dealUrl={dealUrl} />;
 
   return (
-    <form className='create-job-form flex' onSubmit={handleSubmit(onSubmit)}>
-      <div className='create-job-form__group flex'>
+    <form className="create-job-form flex" onSubmit={handleSubmit(onSubmit)}>
+      <div className="create-job-form__group flex">
         <ClientDetailsSection register={register} errors={errors} />
         <JobTypeSection
           register={register}
@@ -65,11 +61,7 @@ export function CreateJobForm() {
           jobTypeOptions={optionsMap.jobtype}
           jobSourceOptions={optionsMap.jobsource}
         />
-        <ServiceLocationSection
-          register={register}
-          errors={errors}
-          areaOptions={optionsMap.area}
-        />
+        <ServiceLocationSection register={register} errors={errors} areaOptions={optionsMap.area} />
         <ScheduleSection
           register={register}
           errors={errors}
@@ -80,3 +72,5 @@ export function CreateJobForm() {
     </form>
   );
 }
+
+export default CreateJobForm;

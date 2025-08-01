@@ -1,9 +1,11 @@
 import './spinner.css';
 
-export const Spinner = () => {
+function Spinner() {
   return (
     <div className="loading-container flex">
-      <div className="spinner"></div>
+      <div className="spinner" />
     </div>
-  )
+  );
 }
+
+export default Spinner;

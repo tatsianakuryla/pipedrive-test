@@ -1,8 +1,8 @@
-import { CreateJobForm } from "./components/form/CreateJobForm.tsx";
-import { useEffect, useState } from "react";
-import {initializeSdk} from "./services/initializationSdk.ts";
+import { useEffect, useState } from 'react';
+import CreateJobForm from './components/form/CreateJobForm.tsx';
+import initializeSdk from './services/initializationSdk.ts';
 
-export function App() {
+function App() {
   const [sdkReady, setSdkReady] = useState(false);
 
   useEffect(() => {
@@ -15,5 +15,7 @@ export function App() {
 
   if (!sdkReady) return <div>Loading Pipedrive SDK...</div>;
 
-  return <CreateJobForm/>;
+  return <CreateJobForm />;
 }
+
+export default App;

@@ -1,11 +1,11 @@
-import type {InputHTMLAttributes, ReactNode, SelectHTMLAttributes} from "react";
-import type {FieldErrors, UseFormRegister} from "react-hook-form";
+import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
+import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 interface ComponentsProperties {
   className?: string;
 }
 
-export interface ButtonProperties extends ComponentsProperties{
+export interface ButtonProperties extends ComponentsProperties {
   children: ReactNode;
   onClick?: () => void;
   type?: Button;
@@ -56,30 +56,31 @@ export interface DealMessageProperties {
   dealUrl: string | undefined;
 }
 
-type Button = "button" | "submit" | "reset";
+type Button = 'button' | 'submit' | 'reset';
 
-type Input = "button" |
-"checkbox" |
-"color" |
-"date" |
-"datetime-local" |
-"email" |
-"file" |
-"hidden" |
-"image" |
-"month" |
-"number" |
-"password" |
-"radio" |
-"range" |
-"reset" |
-"search" |
-"submit" |
-"tel" |
-"text" |
-"time" |
-"url" |
-"week";
+type Input =
+  | 'button'
+  | 'checkbox'
+  | 'color'
+  | 'date'
+  | 'datetime-local'
+  | 'email'
+  | 'file'
+  | 'hidden'
+  | 'image'
+  | 'month'
+  | 'number'
+  | 'password'
+  | 'radio'
+  | 'range'
+  | 'reset'
+  | 'search'
+  | 'submit'
+  | 'tel'
+  | 'text'
+  | 'time'
+  | 'url'
+  | 'week';
 
 export type FormValues = {
   firstName: string;

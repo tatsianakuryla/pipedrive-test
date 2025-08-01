@@ -1,14 +1,17 @@
-import type {ButtonProperties} from "../../types.ts";
+import type { ButtonProperties } from '../../types.ts';
 
-export const Button = ({className, children, onClick, type = 'button', disabled = false}: ButtonProperties) => {
+function Button({
+  className,
+  children,
+  onClick,
+  type = 'button',
+  disabled = false,
+}: ButtonProperties) {
   return (
-    <button
-      className={className}
-      onClick={onClick}
-      type={type}
-      disabled={disabled}
-    >
+    <button className={className} onClick={onClick} type={type} disabled={disabled}>
       {children}
     </button>
   );
 }
+
+export default Button;

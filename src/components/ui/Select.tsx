@@ -1,13 +1,7 @@
-import type { SelectProperties } from "../../types.ts";
-import {useRef, useState} from "react";
+import { useRef, useState } from 'react';
+import type { SelectProperties } from '../../types.ts';
 
-export const Select = ({
-                         className,
-                         options = [],
-                         placeholder,
-                         error,
-                         ...rest
-                       }: SelectProperties) => {
+function Select({ className, options = [], placeholder, error, ...rest }: SelectProperties) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -19,15 +13,8 @@ export const Select = ({
 
   return (
     <div className="select-wrapper flex">
-      <div
-        className="select-wrapper-for-after"
-        ref={ref}
-      >
-        <select
-          className={className}
-          onClick={() => handleClick()}
-          {...rest}
-        >
+      <div className="select-wrapper-for-after" ref={ref}>
+        <select className={className} onClick={() => handleClick()} {...rest}>
           {placeholder && <option value="">{placeholder}</option>}
           {options.map((option) => (
             <option key={option.value} value={option.value}>
@@ -39,4 +26,6 @@ export const Select = ({
       {error && <div className="select-error">{String(error)}</div>}
     </div>
   );
-};
+}
+
+export default Select;

@@ -1,12 +1,11 @@
-import type {TextareaProperties} from "../../types.ts";
+import type { TextareaProperties } from '../../types.ts';
 
-export const Textarea = ({ placeholder, className, error, ...rest}: TextareaProperties) => {
+function Textarea({ placeholder, className, error, ...rest }: TextareaProperties) {
   return (
     <div className="textarea-wrapper flex">
-      <textarea
-      placeholder={placeholder}
-      className={className}
-      {...rest}
-    />
-  </div>)
+      <textarea placeholder={placeholder} className={className} {...rest} />
+    </div>
+  );
 }
+
+export default Textarea;

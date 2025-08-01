@@ -14,7 +14,7 @@ export interface DealFieldsResponse {
   data: DealField[];
 }
 
-export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export interface PipedriveResponse<T> {
   success: boolean;
@@ -24,3 +24,8 @@ export interface PipedriveResponse<T> {
 }
 
 export type RequestBody = Record<string, unknown> | undefined;
+
+export type Option = {
+  id?: string;
+  label: string;
+};
