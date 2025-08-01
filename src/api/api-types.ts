@@ -29,3 +29,10 @@ export type Option = {
   id?: string;
   label: string;
 };
+
+export interface PipedriveDealField {
+  name: string;
+  key: string;
+  field_type: string;
+  options?: Option[];
+}

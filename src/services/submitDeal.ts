@@ -27,23 +27,6 @@ async function onSubmitDeal(
 
   const deal = await pipedriveRequest<{ id: number }>('/deals', 'POST', dealBody);
 
-  const noteLines = [
-    `Client: ${fullName}`,
-    formData.email && `Email: ${formData.email}`,
-    formData.phone && `Phone: ${formData.phone}`,
-    formData.jobType && `Job type: ${formData.jobType}`,
-    formData.jobDescription && `Description: ${formData.jobDescription}`,
-    (formData.jobDate || formData.startTime || formData.endTime) &&
-      `Scheduled: ${[formData.jobDate, formData.startTime, formData.endTime].filter(Boolean).join(' ')}`,
-  ].filter(Boolean);
-
-  if (noteLines.length) {
-    await pipedriveRequest('/notes', 'POST', {
-      deal_id: deal.id,
-      content: noteLines.join('\n'),
-    });
-  }
-
   return deal.id;
 }
 
